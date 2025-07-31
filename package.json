@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@types/node": "^24.1.0",
+    "starknet": "^7.6.4"
+  }
+}
