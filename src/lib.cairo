@@ -48,7 +48,7 @@ impl StructHashSimpleStruct of StructHash<SimpleStruct> {
 
 #[cfg(test)]
 mod tests {
-    use openzeppelin_utils::snip12::{SNIP12Metadata, StructHash};
+    use openzeppelin_utils::snip12::{OffchainMessageHash, SNIP12Metadata, StructHash};
     use super::{ItemType, SimpleStruct, StructHash2};
 
     /// Required for hash computation.
@@ -61,6 +61,7 @@ mod tests {
         }
     }
 
+    // REASON WHY MESSAGE HASH DOESN'T MATCH
     #[test]
     #[should_panic]
     fn test_struct_hash_mismatch() {
@@ -77,6 +78,21 @@ mod tests {
         let expected_hash = 0xb2235f12b8e4a5abbd39dcef201ff24644f5251f631c4ee68ca659af7ffe9e;
         let simple_struct = SimpleStruct { some_enum: ItemType::NATIVE };
         let actual_hash = simple_struct.hash_struct_correct();
+        assert_eq!(actual_hash, expected_hash, "not match");
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_message_hash_mismatch() {
+        // This value was computed using StarknetJS
+        let expected_hash = 0x372a21202ec730258f49c258830162837f6d5230120521f2b38f6990131ce7a;
+        let simple_struct = SimpleStruct { some_enum: ItemType::NATIVE };
+        let actual_hash = simple_struct
+            .get_message_hash(
+                0x049c8ce76963bb0d4ae4888d373d223a1fd7c683daa9f959abe3c5cd68894f51
+                    .try_into()
+                    .unwrap(),
+            );
         assert_eq!(actual_hash, expected_hash, "not match");
     }
 }
