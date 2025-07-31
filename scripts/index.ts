@@ -5,9 +5,10 @@ import {
   typedData,
 } from "starknet";
 
-import { offerer_address } from "./constants";
+const offerer_address =
+  "0x049c8ce76963bb0d4ae4888d373d223a1fd7c683daa9f959abe3c5cd68894f51";
 
-export async function run() {
+async function run() {
   const myTypedData: TypedData = {
     domain: {
       name: "DappName",
